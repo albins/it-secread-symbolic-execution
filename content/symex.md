@@ -6,7 +6,7 @@ count: true
 
 <!-- .me[.grey[*by* **Nicholas Matsakis**]] -->
 
-<!-- .citation[`https://github.com/albins/rust-belt-rust-2019`] -->
+.citation[`https://github.com/albins/it-secread-symbolic-execution`]
 
 ---
 
