@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TITLE TBA</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="content/custom.css">
+</head>
+
+<body>
+    <script src="remark-latest.min.js"></script>
+    <script src="mermaid.min.js"></script>
+
+    <script>
+     var slideshow = remark.create({
+         sourceUrl: 'content/symex.md'
+     });
+
+
+     mermaid.initialize({
+         startOnLoad: false,
+         cloneCssStyles: false,
+         theme: 'forest'
+     });
+
+     function initMermaid(s) {
+         var diagrams = document.querySelectorAll('.mermaid');
+         var i;
+         for(i=0;i<diagrams.length;i++){
+             if(diagrams[i].offsetWidth>0){
+                 mermaid.init(undefined, diagrams[i]);
+             }
+         }
+     }
+     slideshow.on('afterShowSlide', initMermaid);
+     initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+    </script>
+
+</body>
+
+</html>
