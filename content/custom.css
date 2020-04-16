@@ -53,12 +53,12 @@ img {
 table {
   width: 100%;
   border-collapse: collapse;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  /* border-top: 2px solid black; */
+  /* border-bottom: 2px solid black; */
 }
 th {
   text-align: center;
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
   padding-top: .5em;
   padding-bottom: .5em;
 }
@@ -381,10 +381,29 @@ mark, .mark {
 }
 
 .Title {
-  font-family: 'Yanone Kaffeesatz';
-  font-weight: normal;
-  font-size: 300px;
+    font-family: 'Yanone Kaffeesatz';
+    font-weight: normal;
+    font-size: 100px;
+    background-color: rgba(255, 255, 255, 0.7);
 }
+
+.citation {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.Subtitle {
+    font-family: 'Yanone Kaffeesatz';
+    font-weight: normal;
+    font-size: 40px;
+    color: grey;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.Small-Caps {
+    font-variant: small-caps;
+}
+
+
 
 .HugeEmoji {
   font-family: 'Yanone Kaffeesatz';
@@ -476,3 +495,12 @@ mark, .mark {
     left: 100px;
     text-shadow: 4px 4px 2px rgba(150, 150, 150, 1);
 }
+
+.column:first-of-type {float:left}
+.column:last-of-type {float:right}
+
+.split-50 .column:first-of-type {
+    width: 4%;
+    margin-right: 4%;
+}
+.split-50 .column:last-of-type {width: 48%}
