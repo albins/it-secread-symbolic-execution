@@ -11,6 +11,11 @@
     <script src="remark-latest.min.js"></script>
     <script src="mermaid.min.js"></script>
 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
     <script>
      var slideshow = remark.create({
          sourceUrl: 'content/symex.md'
@@ -34,6 +39,15 @@
      }
      slideshow.on('afterShowSlide', initMermaid);
      initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+     // Setup MathJax
+     MathJax.Hub.Config({
+         tex2jax: {
+             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+         }
+     });
+
+     MathJax.Hub.Configured();
     </script>
 
 </body>

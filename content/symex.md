@@ -28,6 +28,10 @@ First part
 
 Second part
 
+$$x + y = 17$$
+
+This is an inline integral: \\(\int_a^bf(x)dx\\)
+
 ---
 
 name: a-template
