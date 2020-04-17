@@ -504,3 +504,10 @@ mark, .mark {
     margin-right: 4%;
 }
 .split-50 .column:last-of-type {width: 48%}
+
+.box {
+	  background: lightgrey;
+	  border-radius: 10px;
+    padding:5px;
+    font-size: 75%;
+}

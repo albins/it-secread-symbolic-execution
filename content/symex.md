@@ -37,8 +37,10 @@ User <span onMouseOver="popupText('Amelia was born in 1979...')">
     Amelia </span>
 ```
 
- User <span onMouseOver="popupText('Amelia was born in 1979...')">
+.box[
+User <span onMouseOver="popupText('Amelia was born in 1979...')">
     Amelia </span>
+]
 
 ---
 
@@ -57,7 +59,9 @@ which would inject code that would be executed (an XSS attack).
 --
 
 
+.box[
 User <span onMouseOver="popupText(''); alert('Boo!'); alert('')">Amelia</span>
+]
 
 ---
 layout: true
@@ -231,6 +235,26 @@ j' = i + 1
 
 # G-Strings
 
+![An example of a dashed string](content/images/dashed-strings.png)
+
+> The name "dashed" comes from a graphical interpretation of \\(S = S_1^{l_1,
+> u_1}, S_2^{l_2, u_2}, \ldots, S_2^{l_k,u_k}\\) where we imagine a block
+> \\(S_i^{l_i,u_i}\\) as a continuous segment of length \\(l_i\\) followed by a
+> dashed segment of length \\(u_i − l_i\\). The continuous segment indicates
+> that exactly \\(l_i\\) characters of \\(S_i\\) *must* occur in each concrete
+> string denoted by \\(S\\); the dashed segment indicates that \\(k\\)
+> characters of \\(S_i\\), with \\(0 \leq k \leq u_i − l_i\\), *may* occur.
+
+.footnote[Figure and quote from [A Novel Approach to String Constraint
+Solving](https://doi.org/10.1007/978-3-319-66158-2_1).]
+
+???
+- Uses dashed strings
+- each string is a concatenation of blocks
+- each block has an upper and lower bound on length
+- the interesting operation is membership
+- the segments are {b,b}, [o^2, o^2], m, [!^0, !^3]
+
 ---
 
 # The ExpoSE Test Suite
@@ -258,6 +282,8 @@ Note that symbolic variables are annotated!
 ---
 
 # Their Results
+
+![Aratha benchmarks results](content/images/results.png)
 
 ---
 class: center
