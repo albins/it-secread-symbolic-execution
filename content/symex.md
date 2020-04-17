@@ -33,10 +33,13 @@ template: string-injections
 template:string-injections
 Ok if `bio = "Amelia was born in 1979..."`:
 ```html
-User
-<span onMouseOver="popupText('Amelia was born in 1979...')">
-Amelia </span> </h1>
+User <span onMouseOver="popupText('Amelia was born in 1979...')">
+    Amelia </span>
 ```
+
+ User <span onMouseOver="popupText('Amelia was born in 1979...')">
+    Amelia </span>
+
 ---
 
 template: string-injections
@@ -44,10 +47,17 @@ template: string-injections
 ...but less so for `bio = "); alert('Boo!'); alert("`:
 
 ```html
-<span onMouseOver="popupText(''); alert('Boo!'); alert('')">
+User <span onMouseOver="popupText(''); alert('Boo!'); alert('')">
+    Ameila
+    </span>
 ```
 
 which would inject code that would be executed (an XSS attack).
+
+--
+
+
+User <span onMouseOver="popupText(''); alert('Boo!'); alert('')">Amelia</span>
 
 ---
 layout: true
@@ -135,9 +145,87 @@ Theories](http://doi.org/10.1007/978-3-030-00250-3_2)]
 
 We handle this by solving *decidable fragments*.
 
+
+--
+
+Of course, *all fragments* are decidable with finite variables!
+
+---
+
+# Aratha
+
+![A flowchart depicting the execution flow in Aratha](content/images/aratha.png)
+
+???
+
+- JavaScript is instrumented by Jalangi2
+- Essentially wrapping all variable accesses
+- Best-effort: i.e. library calls etc may *just* return the concrete value
+
+--
+
+
+<div class="mermaid">
+graph LR
+        
+        start("x = 'hello'")
+        left("someFunction&#40;&#41;")
+        right("someOtherFn&#40;&#41;")
+        decision1{"x == 'bork'"}
+        
+        start --> decision1
+        decision1 -- "PC1: x = 'bork'" --> left
+        decision1 -- "PC2: x ≠ bork" --> right
+        
+</div>
+
+???
+- Get path condition, hand it to solver
+- We need to "understand" what the code does!
+- DSE: use these to generate inputs for max code coverage
+
 ---
 
 # How They Modelled the JavaScript Semantics
+
+- Approximations are allowed
+- Variables become \\(\langle{}\mathit{type}, \mathit{string\: value}, \mathit{address}\rangle\\)
+- The types are \\(\mathbb{T}=\left\\{\mathit{Null}, \mathit{Undef}, \mathit{Bool}, \mathit{Num}, \mathit{Str}, \mathit{Obj}\right\\}\\)
+- Array writes: sequence of  \\(\langle O, \mathit{attribute} , \mathit{value} \rangle\\)
+- Index writes and reads by time: \\(\mathit{read}(O, x, T) = i\\) means "at
+  time \\(i\\), happening before time \\(T\\), the object \\(O\\) was given a
+  value (which can be looked up).
+- Deleting is writing `undefined`
+
+???
+
+- JS was designed in 10 days
+- Objects are arrays ("dictionaries")
+- The set of array indices is unbounded and arrays can alias!
+- Encoding reads/writes is potentially expensive
+
+---
+
+# An Array Example
+
+```javascript
+y = O[a]; // read attribute a
+O[a] = x; // write something to a
+z = O[a]; // read the new value
+```
+- \\(j=read(O,a,i)\\): at \\(i\\), we read `O[a]`'s write from time \\(j\\)
+- \\(write(O,a,x,i+1)\\): at \\(i + 1\\), we write `O[a] = x`
+- \\(j'=read(O,a,i+1) \\): we read `O[a]`'s write from time \\(j'\\)
+- \\(\mathit{type}(y) = \mathtt{PType[j] }\\): propagate the type etc of `y`
+- \\(\mathit{sval}(y) = \mathtt{PSval[j] }\\)
+- \\(\mathit{addr}(y) = \mathtt{PAddr[j]}\\)
+- \\(\mathit{type}(z) = \mathtt{PType[j']} \\): propagate the type etc of `z`
+- \\(\mathit{sval}(z) = \mathtt{PSval[j']} \\)
+- \\(\mathit{addr}(z) = \mathtt{PAddr[j']}\\)
+
+???
+
+j' = i + 1
 
 ---
 
@@ -145,7 +233,27 @@ We handle this by solving *decidable fragments*.
 
 ---
 
-# The ExpoSE Benchmarks
+# The ExpoSE Test Suite
+
+An example (`tests/regex/real_world/github.js`):
+```javascript
+var x = S$.symbol("X", '');
+
+if (/^git(?:@|:\/\/)github\.com(?::|\/)([^\/]+\/[^\/]+)\.git$/
+  .test(x)) {
+	if (x.length > 0) throw 'Reachable';
+	if (x.length == 0) throw 'Unreachable';
+	if (x.indexOf('git') == -1) throw 'Unreachable';
+	if (x.indexOf('@') == -1) throw 'Reachable';
+}
+
+```
+
+--
+
+.line3[![Point at `&x`](content/images/arrow.svg)]
+
+Note that symbolic variables are annotated!
 
 ---
 

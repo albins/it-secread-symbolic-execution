@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>TITLE TBA</title>
+    <title>Constraint Programming for Dynamic Symbolic Execution of JavaScript</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="content/custom.css">
 </head>
@@ -21,11 +21,18 @@
          sourceUrl: 'content/symex.md'
      });
 
+     function popupText(s) {}
+
 
      mermaid.initialize({
          startOnLoad: false,
          cloneCssStyles: false,
-         theme: 'forest'
+         //theme: 'forest'
+         flowchart: {
+             width: "50%",
+             fontSize: 2,
+             htmlLabels: false
+         }
      });
 
      function initMermaid(s) {
