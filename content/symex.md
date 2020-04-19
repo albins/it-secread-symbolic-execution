@@ -50,7 +50,7 @@ template: string-injections
 
 ```html
 User <span onMouseOver="popupText(''); alert('Boo!'); alert('')">
-    Ameila
+    Amelia
     </span>
 ```
 
@@ -244,7 +244,6 @@ j' = i + 1
 > that exactly \\(l_i\\) characters of \\(S_i\\) *must* occur in each concrete
 > string denoted by \\(S\\); the dashed segment indicates that \\(k\\)
 > characters of \\(S_i\\), with \\(0 \leq k \leq u_i − l_i\\), *may* occur.
-
 .footnote[Figure and quote from [A Novel Approach to String Constraint
 Solving](https://doi.org/10.1007/978-3-319-66158-2_1).]
 
@@ -284,6 +283,29 @@ Note that symbolic variables are annotated!
 # Their Results
 
 ![Aratha benchmarks results](content/images/results.png)
+
+- G-Strings has *higher* code coverage
+- Timeouts make the results skewed
+- Probably: Low % \\(\implies\\) imprecision in analysis
+--
+
+- *Are SMT solvers given bound*?
+--
+ 🤷‍♀️
+--
+
+- All of ExpoSE's test file generate...no constraints???
+
+---
+
+# Summary
+
+- DSE is whitebox fuzzing enhanced by constraint solvers
+- Aratha: DSE engine that works with SMT *and* CP solvers
+- CP solvers are now advanced enough to handle JS semantics
+- Enables comparison
+- Results seem *suspiciously* good
+- Authors: "portfolio approach might be best"
 
 ---
 class: center
